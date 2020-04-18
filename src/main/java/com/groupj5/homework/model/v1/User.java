@@ -1,12 +1,7 @@
 package com.groupj5.homework.model.v1;
 
 
-
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 
@@ -16,6 +11,9 @@ public class User implements Serializable {
     // 12:46:23
 
     @Id
+    @GeneratedValue(generator = "SEQUENCE_GENERATOR", strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "SEQUENCE_GENERATOR", sequenceName = "SEQ_USER",
+            allocationSize = 100)
     private Long id;
     @Column(name = "name")
     private String name;

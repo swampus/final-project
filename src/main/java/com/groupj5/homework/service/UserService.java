@@ -2,6 +2,8 @@ package com.groupj5.homework.service;
 
 import com.groupj5.homework.dto.UserDTO;
 import com.groupj5.homework.dto.mapper.UserMapper;
+import com.groupj5.homework.exceptions.ServiceException;
+import com.groupj5.homework.handler.ErrorCode;
 import com.groupj5.homework.model.v1.User;
 import com.groupj5.homework.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,7 @@ public class UserService {
     public UserDTO getUserById(Long id) {
         User user = userRepository.getOne(id);
         return userMapper.userToDto(user);
+
     }
 
     public void createUser(UserDTO userDTO){

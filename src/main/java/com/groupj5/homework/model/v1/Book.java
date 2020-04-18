@@ -1,14 +1,11 @@
 package com.groupj5.homework.model.v1;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Book {
 
     @Id
-    @GeneratedValue
     private Long id;
     private String name;
 

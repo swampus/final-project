@@ -16,7 +16,6 @@ public class User implements Serializable {
     // 12:46:23
 
     @Id
-    @GeneratedValue
     private Long id;
     @Column(name = "name")
     private String name;

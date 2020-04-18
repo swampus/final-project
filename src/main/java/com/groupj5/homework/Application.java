@@ -24,6 +24,7 @@ public class Application {
      */
     @Bean
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+
         return args -> {
 
             logger.debug("Let's inspect the beans provided by Spring Boot:");

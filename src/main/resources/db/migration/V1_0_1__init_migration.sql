@@ -1,0 +1,1 @@
+insert into book values(4, 'The four');

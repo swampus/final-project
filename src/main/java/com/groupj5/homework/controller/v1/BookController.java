@@ -18,11 +18,12 @@ public class BookController {
 
     private BookMapper bookMapper;
 
-    //TODO : what wrong ?
     private final BookService bookService;
 
     @Autowired
-    public BookController(BookService bookService) {
+    public BookController(BookService bookService,
+                          BookMapper bookMapper) {
+        this.bookMapper = bookMapper;
         this.bookService = bookService;
     }
 

@@ -7,6 +7,7 @@ import com.groupj5.homework.exceptions.ServiceException;
 import com.groupj5.homework.handler.ErrorCode;
 import com.groupj5.homework.model.v1.User;
 import com.groupj5.homework.repository.UserRepository;
+import com.groupj5.homework.service.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +21,16 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final UserValidator userValidator;
+    private final InstagramService instagramService;
 
     @Autowired
-    public UserService(UserRepository userRepository, UserMapper userMapper) {
+    public UserService(UserRepository userRepository,
+                       UserMapper userMapper, UserValidator userValidator, InstagramService instagramService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.userValidator = userValidator;
+        this.instagramService = instagramService;
     }
 
     public List<UserDTO> getAllUsers() {
@@ -35,10 +41,8 @@ public class UserService {
 
     public UserDTO getUserById(Long id) {
 
-        if(id == 13){
-            throw new ServiceException(ErrorCode.GEN_USR_13,
-                    new HashMap<>(), "en");
-        }
+        userValidator.checkNotAdmin(id);
+        userValidator.checkNonUnlakcyUser(id);
 
         try {
             User user = userRepository.getOne(id);
@@ -48,8 +52,6 @@ public class UserService {
                     ImmutableMap.of("id", String.valueOf(id)),
                     "en");
         }
-
-
     }
 
     public void createUser(UserDTO userDTO) {
@@ -62,4 +64,8 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public String updateUserPhotos(long id){
+        return instagramService.returnResult(id);
+      /////
+    }
 }

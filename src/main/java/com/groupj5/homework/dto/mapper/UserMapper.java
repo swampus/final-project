@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserMapper {
 
-    public UserDTO userToDto(User user){
+    public UserDTO userToDto(User user) {
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());
         userDTO.setAddress(user.getAddress());
@@ -20,7 +20,7 @@ public class UserMapper {
         return userDTO;
     }
 
-    public User fromDTO(UserDTO userDTO){
+    public User fromDTO(UserDTO userDTO) {
         User user = new User();
         user.setId(userDTO.getId());
         user.setAddress(userDTO.getAddress());

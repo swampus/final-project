@@ -1,8 +1,10 @@
 package com.groupj5.homework.handler;
 
+import com.groupj5.homework.dto.AbstractResponseDTO;
+
 import java.util.Map;
 
-public class ErrorResponse {
+public class ErrorResponse extends AbstractResponseDTO {
     private ErrorCode errorCode;
     private String message;
     private Map<String, String> targetValue;
@@ -14,6 +16,7 @@ public class ErrorResponse {
         this.message = message;
         this.targetValue = targetValue;
         this.lang = lang;
+        this.setType("ERROR");
     }
 
     public ErrorCode getErrorCode() {

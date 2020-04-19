@@ -2,7 +2,7 @@ package com.groupj5.homework.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class UserDTO {
+public class UserDTO extends AbstractResponseDTO {
 
     @JsonProperty("user_id")
     private Long id;

@@ -9,6 +9,7 @@ import org.springframework.web.context.request.WebRequest;
 import javax.persistence.EntityNotFoundException;
 import java.util.HashMap;
 
+
 @ControllerAdvice
 @RestController
 public class GlobalExceptionHandler {
@@ -21,7 +22,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = {ServiceException.class})
     public ErrorResponse handleAnyException(ServiceException ex) {
-        return new ErrorResponse(ex.getErrorCode(), ex.getMessage(), ex.getTargetParam(), "en");
+        return new ErrorResponse(ex.getErrorCode(), ex.getErrorCode().getMessage(),
+                ex.getTargetParam(), "en");
     }
 }
 

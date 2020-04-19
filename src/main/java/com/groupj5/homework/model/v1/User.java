@@ -83,4 +83,10 @@ public class User implements Serializable {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
+    public static User from(String pk){
+        User user = new User();
+        user.setUserPk(pk);
+        return user;
+    }
 }

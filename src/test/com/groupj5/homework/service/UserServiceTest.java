@@ -13,15 +13,11 @@ import static org.mockito.Mockito.when;
 
 class UserServiceTest {
 
-
-    private InstagramService instagramService
-            = mock(InstagramService.class);
     private UserRepository userRepository = mock(UserRepository.class);
 
     UserService userService = new UserService(userRepository,
             new UserMapper(),
-            new UserValidator(),
-            instagramService);
+            new UserValidator());
 
 
     @Test
@@ -38,12 +34,4 @@ class UserServiceTest {
 
     }
 
-    @Test
-    void updateUserPhotos() {
-        when(instagramService.returnResult(5L)).thenReturn("OK");
-
-        Assertions.assertEquals("OK",
-                userService.updateUserPhotos(5));
-
-    }
 }

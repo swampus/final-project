@@ -1,6 +1,7 @@
 package com.groupj5.homework.controller.v1;
 
 import com.groupj5.homework.dto.UserDTO;
+import com.groupj5.homework.model.v1.User;
 import com.groupj5.homework.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,5 +38,15 @@ public class UserController {
         userService.updateUser(userDTO);
     }
 
+    @GetMapping("/users/pk({pk})")
+    public UserDTO updateUser(@PathVariable String pk){
+       return userService.findByUserPersonalCode(pk);
+    }
+
+    @GetMapping("/users/pk({pk})/status({status})")
+    public UserDTO findByUserPkAndStatus(@PathVariable String pk,
+                                         @PathVariable Integer status){
+        return userService.findByUserPkAndStatus(pk, status);
+    }
 
 }

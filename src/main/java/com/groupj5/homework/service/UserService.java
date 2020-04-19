@@ -9,10 +9,11 @@ import com.groupj5.homework.model.v1.User;
 import com.groupj5.homework.repository.UserRepository;
 import com.groupj5.homework.service.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.HashMap;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,15 +23,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final UserValidator userValidator;
-    private final InstagramService instagramService;
 
     @Autowired
     public UserService(UserRepository userRepository,
-                       UserMapper userMapper, UserValidator userValidator, InstagramService instagramService) {
+                       UserMapper userMapper, UserValidator userValidator) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.userValidator = userValidator;
-        this.instagramService = instagramService;
     }
 
     public List<UserDTO> getAllUsers() {
@@ -64,8 +63,17 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public String updateUserPhotos(long id){
-        return instagramService.returnResult(id);
-      /////
+    public UserDTO findByUserPersonalCode(String pk) {
+        return userMapper.userToDto(userRepository.findOne(Example.of(User.from(pk))).orElseThrow(
+                () -> new ServiceException(ErrorCode.GEN_USR_01,
+                        ImmutableMap.of("pk", String.valueOf(pk)),
+                        "en")));
     }
+
+    public UserDTO findByUserPkAndStatus(String pk, Integer status) {
+
+        User user = userRepository.findByUserPkAndStatus(pk, status);
+        return userMapper.userToDto(user);
+    }
+
 }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -71,6 +72,8 @@ public class UserService {
     }
 
     public UserDTO findByUserPkAndStatus(String pk, Integer status) {
+
+
 
         User user = userRepository.findByUserPkAndStatus(pk, status);
         return userMapper.userToDto(user);

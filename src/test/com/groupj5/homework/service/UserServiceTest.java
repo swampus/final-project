@@ -5,9 +5,9 @@ import com.groupj5.homework.dto.mapper.UserMapper;
 import com.groupj5.homework.model.v1.User;
 import com.groupj5.homework.repository.UserRepository;
 import com.groupj5.homework.service.validator.UserValidator;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -30,7 +30,7 @@ class UserServiceTest {
         when(userRepository.getOne(100L)).thenReturn(user);
         UserDTO userResult = userService.getUserById(100L);
 
-        Assertions.assertEquals("S1", userResult.getSurname());
+        assertEquals("S1", userResult.getSurname());
 
     }
 

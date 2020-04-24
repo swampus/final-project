@@ -26,6 +26,11 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.4.0.905</version>
+            </plugin>
         </plugins>
     </build>
 
@@ -84,7 +89,6 @@
             <scope>test</scope>
             <version>2.1.6.RELEASE</version>
         </dependency>
-
 
 
     </dependencies>

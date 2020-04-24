@@ -13,8 +13,6 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 

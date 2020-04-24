@@ -1,9 +1,9 @@
 package com.groupj5.homework.service.validator;
 
 import com.groupj5.homework.exceptions.ServiceException;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Fail.fail;
 
 class UserValidatorTest {
 

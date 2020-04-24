@@ -2,9 +2,10 @@ package com.groupj5.homework.dto.mapper;
 
 import com.groupj5.homework.dto.UserDTO;
 import com.groupj5.homework.model.v1.User;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
+
 
 class UserMapperTest {
 
@@ -27,7 +28,7 @@ class UserMapperTest {
         assertEquals("name", userDto.getName());
         assertEquals("surname", userDto.getSurname());
         assertEquals("userPk", userDto.getUserPk());
-        assertEquals(1L, userDto.getId());
+        assertEquals(Long.valueOf(1), userDto.getId());
 
 
     }
@@ -49,7 +50,7 @@ class UserMapperTest {
         assertEquals("name", user.getName());
         assertEquals("surname", user.getSurname());
         assertEquals("userPk", user.getUserPk());
-        assertEquals(1L, user.getId());
+        assertEquals(Long.valueOf(1), user.getId());
 
 
     }

@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.groupj5.homework.dto.UserDTO;
 import com.groupj5.homework.service.UserService;
 import org.assertj.core.util.DateUtil;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(UserController.class)
-class UserControllerIntegrationTest {
+public class UserControllerIntegrationTest {
 
     @Autowired
     private MockMvc mvc;
@@ -38,13 +38,13 @@ class UserControllerIntegrationTest {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() throws Exception {
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 
     @Test
-    void getAllUsers() throws Exception {
+    public void getAllUsers() throws Exception {
 
         UserDTO testUser = new UserDTO();
         testUser.setUserPk("1234543");
@@ -55,34 +55,34 @@ class UserControllerIntegrationTest {
         testUser.setAddress("Address t2 - 80");
         testUser.setTime(DateUtil.truncateTime(new Date()));
 
-        List<UserDTO> allUsers= Collections.singletonList(testUser);
+        List<UserDTO> allUsers = Collections.singletonList(testUser);
 
         given(service.getAllUsers()).willReturn(allUsers);
 
         mvc.perform(get("/api/v1/rest/User/users")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string(equalTo(objectMapper.writeValueAsString(allUsers))));
+                .andExpect(content().string(equalTo( objectMapper.writeValueAsString(allUsers))));
 
     }
 
     @Test
-    void getUserById() {
+    public void getUserById() {
     }
 
     @Test
-    void createUser() {
+    public void createUser() {
     }
 
     @Test
-    void updateUser() {
+    public void updateUser() {
     }
 
     @Test
-    void updateUser1() {
+    public void updateUser1() {
     }
 
     @Test
-    void findByUserPkAndStatus() {
+    public void findByUserPkAndStatus() {
     }
 }

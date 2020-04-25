@@ -13,7 +13,8 @@ public class UserDTO extends AbstractResponseDTO {
     private String email;
     private String address;
     private Integer status;
-
+    @JsonProperty("user_hash")
+    private String userHash;
 
     public Long getId() {
         return id;
@@ -69,5 +70,13 @@ public class UserDTO extends AbstractResponseDTO {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getUserHash() {
+        return userHash;
+    }
+
+    public void setUserHash(String userHash) {
+        this.userHash = userHash;
     }
 }

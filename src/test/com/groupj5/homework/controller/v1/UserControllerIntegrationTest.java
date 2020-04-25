@@ -2,13 +2,16 @@ package com.groupj5.homework.controller.v1;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.groupj5.homework.database.NoSQLDatabase;
 import com.groupj5.homework.dto.UserDTO;
+import com.groupj5.homework.service.UService;
 import com.groupj5.homework.service.UserService;
 import org.assertj.core.util.DateUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -36,6 +39,14 @@ public class UserControllerIntegrationTest {
     @MockBean
     private UserService service;
 
+    @MockBean
+    private NoSQLDatabase noSQLDatabase;
+
+    @MockBean
+    @Qualifier("divi")
+    private UService uService;
+
+
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Before
@@ -59,6 +70,10 @@ public class UserControllerIntegrationTest {
 
         given(service.getAllUsers()).willReturn(allUsers);
 
+        String output = objectMapper.writeValueAsString(allUsers);
+
+        System.out.println(output);
+
         mvc.perform(get("/api/v1/rest/User/users")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -67,7 +82,19 @@ public class UserControllerIntegrationTest {
     }
 
     @Test
-    public void getUserById() {
+    public void getUserById() throws Exception {
+        UserDTO testUser = new UserDTO();
+        testUser.setUserPk("1234543");
+        testUser.setSurname("Surname");
+        testUser.setId(101L);
+
+        given(service.getUserById(101L)).willReturn(testUser);
+        String output = objectMapper.writeValueAsString(testUser);
+
+        mvc.perform(get("/api/v1/rest/User/user(101)")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(equalTo(output)));
     }
 
     @Test

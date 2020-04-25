@@ -7,12 +7,12 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 
-class UserMapperTest {
+public class UserMapperTest {
 
     private UserMapper userMapper = new UserMapper();
 
     @Test
-    void userToDto() {
+    public void userToDto() {
         User user = new User();
         user.setId(1L);
         user.setAddress("Adddress");
@@ -34,7 +34,7 @@ class UserMapperTest {
     }
 
     @Test
-    void fromDTO() {
+    public void fromDTO() {
         UserDTO userDTO = new UserDTO();
         userDTO.setId(1L);
         userDTO.setAddress("Adddress");

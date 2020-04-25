@@ -5,12 +5,12 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Fail.fail;
 
-class UserValidatorTest {
+public class UserValidatorTest {
 
     private UserValidator userValidator = new UserValidator();
 
     @Test
-    void checkNotAdmin() {
+    public void checkNotAdmin() {
         try{
             userValidator.checkNotAdmin(0L);
         }catch (ServiceException e){
@@ -26,7 +26,7 @@ class UserValidatorTest {
     }
 
     @Test
-    void checkNonUnlakcyUser() {
+    public void checkNonUnlakcyUser() {
         try{
             userValidator.checkNonUnlakcyUser(0L);
         }catch (ServiceException e){

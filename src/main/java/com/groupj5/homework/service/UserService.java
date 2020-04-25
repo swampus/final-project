@@ -1,12 +1,15 @@
 package com.groupj5.homework.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
+import com.groupj5.homework.database.NoSQLDatabase;
 import com.groupj5.homework.dto.UserDTO;
 import com.groupj5.homework.dto.mapper.UserMapper;
 import com.groupj5.homework.exceptions.ServiceException;
 import com.groupj5.homework.handler.ErrorCode;
 import com.groupj5.homework.model.v1.User;
 import com.groupj5.homework.repository.UserRepository;
+import com.groupj5.homework.service.validator.TestValidator;
 import com.groupj5.homework.service.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -16,19 +19,28 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
-public class UserService {
+@Service("viens")
+public class UserService implements UService {
 
+    private final ObjectMapper objectMapper;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final UserValidator userValidator;
+    private final NoSQLDatabase noSQLDatabase;
+
+
+    @Autowired
+    private TestValidator testValidator;
 
     @Autowired
     public UserService(UserRepository userRepository,
-                       UserMapper userMapper, UserValidator userValidator) {
+                       UserMapper userMapper, UserValidator userValidator, ObjectMapper objectMapper,
+                       NoSQLDatabase noSQLDatabase) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.userValidator = userValidator;
+        this.objectMapper = objectMapper;
+        this.noSQLDatabase = noSQLDatabase;
     }
 
     public List<UserDTO> getAllUsers() {
@@ -44,7 +56,8 @@ public class UserService {
 
         try {
             User user = userRepository.getOne(id);
-            return userMapper.userToDto(user);
+            String hash = noSQLDatabase.getValue(user.getUserPk());
+            return userMapper.userToDto(user, hash);
         } catch (EntityNotFoundException e) {
             throw new ServiceException(ErrorCode.GEN_USR_01,
                     ImmutableMap.of("id", String.valueOf(id)),
@@ -52,15 +65,18 @@ public class UserService {
         }
     }
 
-    public void createUser(UserDTO userDTO) {
+    public UserDTO createUser(UserDTO userDTO) {
         User user = userMapper.fromDTO(userDTO);
-        userRepository.save(user);
+        noSQLDatabase.putValue(user.getUserPk(), "32487290374928742972938");
+        User userCreated = userRepository.save(user);
+        return userMapper.userToDto(userCreated);
     }
 
     public void updateUser(UserDTO userDTO) {
         User user = userMapper.fromDTO(userDTO);
         userRepository.save(user);
     }
+
 
     public UserDTO findByUserPersonalCode(String pk) {
         return userMapper.userToDto(userRepository.findOne(Example.of(User.from(pk))).orElseThrow(
@@ -70,7 +86,6 @@ public class UserService {
     }
 
     public UserDTO findByUserPkAndStatus(String pk, Integer status) {
-
 
 
         User user = userRepository.findByUserPkAndStatus(pk, status);

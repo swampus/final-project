@@ -20,6 +20,19 @@ public class UserMapper {
         return userDTO;
     }
 
+    public UserDTO userToDto(User user, String hash) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setAddress(user.getAddress());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setName(user.getName());
+        userDTO.setStatus(user.getStatus());
+        userDTO.setSurname(user.getSurname());
+        userDTO.setUserPk(user.getUserPk());
+        userDTO.setUserHash(hash);
+        return userDTO;
+    }
+
     public User fromDTO(UserDTO userDTO) {
         User user = new User();
         user.setId(userDTO.getId());

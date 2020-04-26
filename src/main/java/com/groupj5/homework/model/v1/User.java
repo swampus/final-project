@@ -25,6 +25,8 @@ public class User implements Serializable {
     private String email;
     @Column(name = "address")
     private String address;
+    @Column(name = "password")
+    private String password;
     @Column(name = "status")
     private Integer status;
 
@@ -82,6 +84,14 @@ public class User implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public static User from(String pk){

@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service("viens")
-public class UserService implements UService {
+public class UserService {
 
     private final ObjectMapper objectMapper;
     private final UserRepository userRepository;
@@ -41,6 +41,15 @@ public class UserService implements UService {
         this.userValidator = userValidator;
         this.objectMapper = objectMapper;
         this.noSQLDatabase = noSQLDatabase;
+    }
+
+    public void userAuth(String email, String password) {
+        User user = userRepository.findByEmailAndPassword(email, password);
+        if (user == null) {
+            throw new ServiceException(ErrorCode.GEN_USR_20,
+                    ImmutableMap.of("email", email),
+                    "en");
+        }
     }
 
     public List<UserDTO> getAllUsers() {
@@ -65,8 +74,9 @@ public class UserService implements UService {
         }
     }
 
-    public UserDTO createUser(UserDTO userDTO) {
+    public UserDTO createUser(UserDTO userDTO, String hashPassword) {
         User user = userMapper.fromDTO(userDTO);
+        user.setPassword(hashPassword);
         noSQLDatabase.putValue(user.getUserPk(), "32487290374928742972938");
         User userCreated = userRepository.save(user);
         return userMapper.userToDto(userCreated);

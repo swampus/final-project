@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.groupj5.homework.database.NoSQLDatabase;
 import com.groupj5.homework.dto.UserDTO;
-import com.groupj5.homework.service.UService;
 import com.groupj5.homework.service.UserService;
 import org.assertj.core.util.DateUtil;
 import org.junit.Before;
@@ -41,11 +40,6 @@ public class UserControllerIntegrationTest {
 
     @MockBean
     private NoSQLDatabase noSQLDatabase;
-
-    @MockBean
-    @Qualifier("divi")
-    private UService uService;
-
 
     private ObjectMapper objectMapper = new ObjectMapper();
 

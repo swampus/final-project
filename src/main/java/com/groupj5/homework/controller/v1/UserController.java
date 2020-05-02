@@ -27,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping("/user({id})")
-    public UserDTO getUserById(@PathVariable Long id) {
+    public UserDTO getUserById(@PathVariable Long id) throws Exception {
         System.out.println("ID:::: " + id);
         return userService.getUserById(id);
     }

@@ -2,7 +2,7 @@ package com.groupj5.homework.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
-import com.groupj5.homework.database.NoSQLDatabase;
+import com.groupj5.homework.database.NoSQLDatabaseService;
 import com.groupj5.homework.dto.UserDTO;
 import com.groupj5.homework.dto.mapper.UserMapper;
 import com.groupj5.homework.exceptions.ServiceException;
@@ -15,7 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.*;
+import javax.crypto.spec.SecretKeySpec;
 import javax.persistence.EntityNotFoundException;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +33,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final UserValidator userValidator;
-    private final NoSQLDatabase noSQLDatabase;
+    private final NoSQLDatabaseService noSQLDatabaseService;
 
 
     @Autowired
@@ -35,12 +42,12 @@ public class UserService {
     @Autowired
     public UserService(UserRepository userRepository,
                        UserMapper userMapper, UserValidator userValidator, ObjectMapper objectMapper,
-                       NoSQLDatabase noSQLDatabase) {
+                       NoSQLDatabaseService noSQLDatabaseService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.userValidator = userValidator;
         this.objectMapper = objectMapper;
-        this.noSQLDatabase = noSQLDatabase;
+        this.noSQLDatabaseService = noSQLDatabaseService;
     }
 
     public void userAuth(String email, String password) {
@@ -53,6 +60,35 @@ public class UserService {
     }
 
     public List<UserDTO> getAllUsers() {
+
+        try {
+
+            String strkey="blowfish";
+            SecretKeySpec key = null;
+            key = new SecretKeySpec(strkey.getBytes(StandardCharsets.UTF_8), "Blowfish");
+            Cipher cipher = Cipher.getInstance("Blowfish/ECB/PKCS5Padding");
+
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+
+            String encryptedData = null;
+            encryptedData = new String(cipher.doFinal("encrypt".getBytes(StandardCharsets.UTF_8)));
+
+            System.out.println("ENCRYPTES: " + encryptedData);
+            System.out.println("ENCRYPTES: " + Base64.getEncoder()
+                    .encodeToString(encryptedData.getBytes()));
+            System.out.println("ENCRYPTES: " +
+                    Arrays.toString(Base64.getEncoder()
+                            .encodeToString(encryptedData.getBytes()).getBytes()));
+            System.out.println("ENCRYPTES: " + Arrays.toString(encryptedData.getBytes(StandardCharsets.UTF_8)));
+            cipher.init(Cipher.DECRYPT_MODE, key);
+
+
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException
+                | BadPaddingException | IllegalBlockSizeException | InvalidKeyException e) {
+            e.printStackTrace();
+        }
+
+
         return userRepository.findAll().stream()
                 .map(userMapper::userToDto)
                 .collect(Collectors.toList());
@@ -65,7 +101,7 @@ public class UserService {
 
         try {
             User user = userRepository.getOne(id);
-            String hash = noSQLDatabase.getValue(user.getUserPk());
+            String hash = noSQLDatabaseService.getValue(user.getUserPk());
             return userMapper.userToDto(user, hash);
         } catch (EntityNotFoundException e) {
             throw new ServiceException(ErrorCode.GEN_USR_01,
@@ -77,7 +113,7 @@ public class UserService {
     public UserDTO createUser(UserDTO userDTO, String hashPassword) {
         User user = userMapper.fromDTO(userDTO);
         user.setPassword(hashPassword);
-        noSQLDatabase.putValue(user.getUserPk(), "32487290374928742972938");
+        noSQLDatabaseService.putValue(user.getUserPk(), "32487290374928742972938");
         User userCreated = userRepository.save(user);
         return userMapper.userToDto(userCreated);
     }

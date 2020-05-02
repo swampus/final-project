@@ -3,7 +3,7 @@ package com.groupj5.homework.database;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NoSQLDatabase {
+public class NoSQLDatabaseService {
     private static Map<String, String> storage = new HashMap<>();
 
     public void putValue(String key, String object) {
@@ -14,4 +14,7 @@ public class NoSQLDatabase {
         return storage.get(key);
     }
 
+    public void remove(String key){
+        storage.remove(key);
+    }
 }

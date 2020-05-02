@@ -1,7 +1,7 @@
 package com.groupj5.homework.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.groupj5.homework.database.NoSQLDatabase;
+import com.groupj5.homework.database.NoSQLDatabaseService;
 import com.groupj5.homework.dto.UserDTO;
 import com.groupj5.homework.dto.mapper.UserMapper;
 import com.groupj5.homework.model.v1.User;
@@ -16,11 +16,11 @@ import static org.mockito.Mockito.when;
 public class UserServiceTest {
 
     private UserRepository userRepository = mock(UserRepository.class);
-    private NoSQLDatabase noSQLDatabase = mock(NoSQLDatabase.class);
+    private NoSQLDatabaseService noSQLDatabaseService = mock(NoSQLDatabaseService.class);
 
     UserService userService = new UserService(userRepository,
             new UserMapper(),
-            new UserValidator(), new ObjectMapper(), noSQLDatabase);
+            new UserValidator(), new ObjectMapper(), noSQLDatabaseService);
 
 
     @Test

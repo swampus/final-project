@@ -1,7 +1,7 @@
 package com.groupj5.homework.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.groupj5.homework.database.NoSQLDatabase;
+import com.groupj5.homework.database.NoSQLDatabaseService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,8 +23,8 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public NoSQLDatabase noSQLDatabase() {
-        return new NoSQLDatabase();
+    public NoSQLDatabaseService noSQLDatabase() {
+        return new NoSQLDatabaseService();
     }
 
     @PostConstruct

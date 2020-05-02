@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS `users` (
     userPk varchar(MAX),
     email varchar(MAX),
     address varchar(MAX),
-    status int
+    status int,
+    username varchar(2000),
 
 )ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 CREATE SEQUENCE SEQ_USER increment by 100

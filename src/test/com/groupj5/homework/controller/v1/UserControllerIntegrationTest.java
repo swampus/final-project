@@ -2,7 +2,7 @@ package com.groupj5.homework.controller.v1;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.groupj5.homework.database.NoSQLDatabase;
+import com.groupj5.homework.database.NoSQLDatabaseService;
 import com.groupj5.homework.dto.UserDTO;
 import com.groupj5.homework.service.UserService;
 import org.assertj.core.util.DateUtil;
@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -39,12 +38,12 @@ public class UserControllerIntegrationTest {
     private UserService service;
 
     @MockBean
-    private NoSQLDatabase noSQLDatabase;
+    private NoSQLDatabaseService noSQLDatabaseService;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 

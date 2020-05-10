@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BookContentRepository extends JpaRepository<Book, Long> {
 
-    @Query("Select bc from BookContent bc where bookId = ?1 AND pageNum = ?1")
+    @Query("Select bc from BookContent bc where bookId = ?1 AND pageNum = ?2")
     BookContent searchBooksContent(@Param("bookId") Long bookId, @Param("pageNum") Long pageNum);
 
 }

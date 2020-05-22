@@ -1,5 +1,7 @@
 package com.groupj5.homework;
 
+import com.groupj5.homework.exceptions.ServiceException;
+import com.groupj5.homework.handler.ErrorCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -16,6 +18,7 @@ public class Application {
     private Logger logger = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) {
+
         SpringApplication.run(Application.class, args);
     }
 
@@ -24,6 +27,7 @@ public class Application {
      */
     @Bean
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+
         return args -> {
 
             logger.debug("Let's inspect the beans provided by Spring Boot:");
